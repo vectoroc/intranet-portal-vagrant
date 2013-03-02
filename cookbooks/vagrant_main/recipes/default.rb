@@ -1,13 +1,4 @@
-log "Locale " + ENV["LC_ALL"] + " / lang " + ENV["LANG"]
-
-# setup locale 
-execute "locale-gen en_US.UTF-8" 
-execute "locale-gen ru_RU.UTF-8" 
-execute "dpkg-reconfigure locales" do
-  not_if { ENV["LC_ALL"] == "en_US.UTF-8" }
-  # :not_if "locale -a | grep -i 'ru_ru.utf-\?8'"
-end  
-execute "update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LC_CTYPE=C"
+include_recipe "vagrant_main::locale"
 
 include_recipe "apt"
 include_recipe "apache2"
