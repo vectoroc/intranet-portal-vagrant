@@ -1,7 +1,3 @@
 <% node['php']['extra'].each do |key,value| -%>
 <%= key %> = <%= value %>
 <% end -%>
-
-<% node['php']['xdebug'].each do |key,value| -%>
-xdebug.<%= key %> = <%= value %>
-<% end -%>
