@@ -5,7 +5,6 @@ Vagrant::Config.run do |config|
   config.vm.network :hostonly, "172.31.31.40"
   #config.vm.share_folder "v-root", "/vagrant", ".", :nfs => true
 
-  # config.vm.forward_port 80, 8080
   config.vm.customize ["modifyvm", :id, "--memory", 512] 
 
   config.vm.provision :chef_solo do |chef|
@@ -19,6 +18,7 @@ Vagrant::Config.run do |config|
           :postgres => "postgres",
         },
         :config => {
+          :listen_addresses => "*",
           :max_connections => 5,
           :lc_messages => "en_US.UTF-8",
           :lc_monetary => "ru_RU.UTF-8",
@@ -27,7 +27,7 @@ Vagrant::Config.run do |config|
         },
         :pg_hba => [
           {:type => 'local', :db => 'all', :user => 'postgres', :addr => nil, :method => 'trust'},
-          {:type => 'host', :db => 'all', :user => 'all', :addr => '127.0.0.1/32', :method => 'trust'},
+          {:type => 'host', :db => 'all', :user => 'all', :addr => '0.0.0.0/0', :method => 'trust'},
         ],
       },
       :apache => {
