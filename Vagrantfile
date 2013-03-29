@@ -2,10 +2,12 @@ Vagrant::Config.run do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
+  #config.vm.boot_mode = :gui
+
   config.vm.network :hostonly, "172.31.31.40"
   #config.vm.share_folder "v-root", "/vagrant", ".", :nfs => true
 
-  config.vm.customize ["modifyvm", :id, "--memory", 512] 
+  config.vm.customize ["modifyvm", :id, "--memory", 1024] 
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"

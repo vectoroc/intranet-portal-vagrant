@@ -40,3 +40,7 @@ template "#{node['php']['ext_conf_dir']}/xdebug.ini" do
   action :create
   notifies :restart, resources("service[apache2]"), :delayed
 end
+
+php_pear "stem" do
+  action :install
+end
