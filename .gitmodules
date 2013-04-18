@@ -1,0 +1,44 @@
+[submodule "cookbooks/apache2"]
+	path = cookbooks/apache2
+	url = https://github.com/opscode-cookbooks/apache2
+
+[submodule "cookbooks/apt"]
+	path = cookbooks/apt
+	url = https://github.com/opscode-cookbooks/apt
+
+[submodule "cookbooks/database"]
+	path = cookbooks/database
+	url = https://github.com/opscode-cookbooks/database
+
+[submodule "cookbooks/git"]
+	path = cookbooks/git
+	url = https://github.com/opscode-cookbooks/git
+
+[submodule "cookbooks/hostsfile"]
+	path = cookbooks/hostsfile
+	url = https://github.com/customink-webops/hostsfile
+
+[submodule "cookbooks/imagemagick"]
+	path = cookbooks/imagemagick
+	url = https://github.com/opscode-cookbooks/imagemagick
+
+[submodule "cookbooks/memcached"]
+	path = cookbooks/memcached
+	url = https://github.com/opscode-cookbooks/memcached
+
+[submodule "cookbooks/mercurial"]
+	path = cookbooks/mercurial
+	url = https://github.com/opscode-cookbooks/mercurial
+
+[submodule "cookbooks/openssl"]
+	path = cookbooks/openssl
+	url = https://github.com/opscode-cookbooks/openssl
+
+[submodule "cookbooks/php"]
+	path = cookbooks/php
+	url = https://github.com/opscode-cookbooks/php
+
+[submodule "cookbooks/postgresql"]
+	path = cookbooks/postgresql
+	url = https://github.com/opscode-cookbooks/postgresql
+
