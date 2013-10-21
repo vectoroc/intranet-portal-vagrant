@@ -1,4 +1,5 @@
 include_recipe "vagrant_main::locale"
+include_recipe "chef-timezone"
 
 include_recipe "apt"
 include_recipe "apache2"

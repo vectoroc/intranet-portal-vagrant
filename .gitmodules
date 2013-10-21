@@ -42,9 +42,6 @@
 	path = cookbooks/postgresql
 	url = https://github.com/opscode-cookbooks/postgresql
 
-[submodule "cookbooks/check-timezone"]
-	path = cookbooks/check-timezone
-	url = https://github.com/winhamwr/chef-timezone
 [submodule "cookbooks/chef-timezone"]
 	path = cookbooks/chef-timezone
 	url = https://github.com/winhamwr/chef-timezone

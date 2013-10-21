@@ -15,13 +15,14 @@ Vagrant::Config.run do |config|
   
     # You may also specify custom JSON attributes:
     chef.json.merge!({
+      :timezone => { :zone => 'Europe/Moscow' },
       :postgresql => {
         :password => {
           :postgres => "postgres",
         },
         :config => {
           :listen_addresses => "*",
-          :max_connections => 5,
+          :max_connections => 15,
           :lc_messages => "en_US.UTF-8",
           :lc_monetary => "ru_RU.UTF-8",
           :lc_numeric => "ru_RU.UTF-8",
