@@ -1,5 +1,3 @@
-include_recipe "apache2"
-
 # Mailcatcher dependencies ?
 %w{ make g++ libsqlite3-dev }.each do |a_package|
   package a_package
@@ -24,5 +22,6 @@ template "#{node['php']['ext_conf_dir']}/mailcatcher.ini" do
   group "root"
   mode "0644"
   action :create
-  notifies :restart, resources("service[apache2]"), :delayed
+  notifies :restart, resources("service[nginx]")
+  #notifies :restart, resources("service[apache2]")
 end

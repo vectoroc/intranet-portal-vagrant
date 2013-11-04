@@ -45,3 +45,12 @@
 [submodule "cookbooks/chef-timezone"]
 	path = cookbooks/chef-timezone
 	url = https://github.com/winhamwr/chef-timezone
+[submodule "cookbooks/php-fpm"]
+	path = cookbooks/php-fpm
+	url = https://github.com/yevgenko/cookbook-php-fpm
+[submodule "cookbooks/nginx"]
+	path = cookbooks/nginx
+	url = https://github.com/opscode-cookbooks/nginx
+[submodule "cookbooks/ohai"]
+	path = cookbooks/ohai
+	url = https://github.com/opscode-cookbooks/ohai

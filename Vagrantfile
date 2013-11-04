@@ -1,13 +1,17 @@
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  #config.vm.boot_mode = :gui
+  config.vm.network :private_network, ip: "172.31.31.40"
+  #config.vm.synced_folder "v-root", "/vagrant", ".", :nfs => true
 
-  config.vm.network :hostonly, "172.31.31.40"
-  #config.vm.share_folder "v-root", "/vagrant", ".", :nfs => true
-
-  config.vm.customize ["modifyvm", :id, "--memory", 1024] 
+  config.vm.provider :virtualbox do |vb|
+    # Don't boot with headless mode
+    # vb.gui = true
+  
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
@@ -33,14 +37,28 @@ Vagrant::Config.run do |config|
           {:type => 'host', :db => 'all', :user => 'all', :addr => '0.0.0.0/0', :method => 'trust'},
         ],
       },
-      :apache => {
-        :prefork => {
-          :startservers => 1,
-          :minspareservers => 1,
-          :maxspareservers => 1,
-          :serverlimit => 3,
-          :maxclients => 3,
-        },
+      :nginx => {
+        :multi_accept => "on",
+        :client_max_body_size => "5G",
+        :default_site_enabled => false,
+      },
+      "php-fpm" => {
+        :pools => ["www"],
+        :pool => {
+          :www => {
+            :listen => "/var/run/php-fpm-www.sock",
+            :allowed_clients => ["127.0.0.1"],
+            :user => "www-data",
+            :group => "www-data",
+            :process_manager => "dynamic",
+            :max_children => 10,
+            :start_servers => 2,
+            :min_spare_servers => 1,
+            :max_spare_servers => 3,
+            :max_requests => 500,
+            :catch_workers_output => "no"
+          }
+        }
       },
       :hosts => ["ifree-portal.dev"],
     })

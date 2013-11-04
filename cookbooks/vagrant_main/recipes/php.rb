@@ -6,6 +6,8 @@ include_recipe "php::module_ldap"
 include_recipe "php::module_memcache"
 include_recipe "php::module_curl"
 
+include_recipe "php-fpm"
+
 package "php5-mssql"
 package "php5-imap"
 package "php5-xdebug"
@@ -29,7 +31,8 @@ template "#{node['php']['ext_conf_dir']}/php-extra.ini" do
   group "root"
   mode "0644"
   action :create
-  notifies :restart, resources("service[apache2]"), :delayed
+  notifies :restart, resources("service[nginx]")
+  # notifies :restart, resources("service[apache2]")
 end
 
 template "#{node['php']['ext_conf_dir']}/xdebug.ini" do
@@ -38,7 +41,8 @@ template "#{node['php']['ext_conf_dir']}/xdebug.ini" do
   group "root"
   mode "0644"
   action :create
-  notifies :restart, resources("service[apache2]"), :delayed
+  notifies :restart, resources("service[nginx]")
+  # notifies :restart, resources("service[apache2]")
 end
 
 php_pear "stem" do

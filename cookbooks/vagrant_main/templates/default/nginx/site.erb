@@ -1,0 +1,42 @@
+server {
+    listen *:80;
+    server_name <%= @server_name %> <% @server_aliases.each do |a| %><%= "#{a}" %> <% end %>; 
+    root <%= @docroot %>;
+    index index.php;
+
+    error_log <%= node['nginx']['log_dir'] %>/<%= @server_name %>_error error;
+    access_log <%= node['nginx']['log_dir'] %>/<%= @server_name %>_access;
+
+    location ~* \.(conf|hg|svn|svn-base|engine|inc|info|install|make|module|profile|test|po|sh|sql|theme|tpl|tpl\.php|xtmpl|pl)$ {
+        deny all;
+    }
+
+    location ~* ^(code-style\.pl|Entries.*|Repository|Root|Tag|Template|\.svn|\.hg) {
+        deny all;
+    }
+
+    location ~ \.php$  {
+        include        fastcgi_params;
+        fastcgi_pass   <%= @fast_cgi_pass %>;
+        fastcgi_intercept_errors on;
+        # allow xdebug to stop on breakpoints
+        send_timeout 900s;
+        fastcgi_read_timeout 14400;
+    }
+
+    location @drupal {
+        rewrite  ^/(.*)$ /index.php?q=$1  last;
+    }
+
+    location / {
+        try_files $uri @drupal;
+    }
+
+    location ^~ /sites/default/files/private/ {
+        internal;
+    }
+
+    location ~ ^/sites/default/files/.*\.php$ {
+        return 404;
+    }
+}
