@@ -1,3 +1,6 @@
+proxy_cache_path /usr/share/nginx/www/cache levels=1:2 keys_zone=oembed:10m;
+proxy_temp_path /usr/share/nginx/www/tmp;
+
 server {
     listen *:80;
     server_name <%= @server_name %> <% @server_aliases.each do |a| %><%= "#{a}" %> <% end %>; 
@@ -32,6 +35,10 @@ server {
         try_files $uri @drupal;
     }
 
+    location /xhprof_html/ {
+        index  index.php index.html;
+    }
+
     location ^~ /sites/default/files/private/ {
         internal;
     }
@@ -39,4 +46,28 @@ server {
     location ~ ^/sites/default/files/.*\.php$ {
         return 404;
     }
+
+    location /proxy-http-request/ {
+        proxy_cache oembed;
+        proxy_cache_min_uses 1;
+        proxy_cache_valid 200 301 302 120m;
+        proxy_cache_valid 404 5m;
+        expires 1d;
+
+        proxy_connect_timeout 1s;
+        proxy_send_timeout 1s;
+
+        proxy_ignore_headers "Set-Cookie" "Cache-Control" "Expires" "X-Accel-Expires" "X-Accel-Redirect";
+        proxy_hide_header "Location";
+
+        resolver 8.8.8.8;
+        add_header "X-Proxy-Http-Request" "nginx";
+
+        if ($arg_url !~ "\/\/(www\.)?(youtu\.be|youtube\.com|rutube\.ru|vimeo\.com|coub\.com)\/") {
+            return 405;
+        }
+
+        proxy_pass $arg_url;
+    }
+
 }

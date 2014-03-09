@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
           :lc_monetary => "ru_RU.UTF-8",
           :lc_numeric => "ru_RU.UTF-8",
           :lc_time => "ru_RU.UTF-8",
+          :standard_conforming_strings => "off",
         },
         :pg_hba => [
           {:type => 'local', :db => 'all', :user => 'postgres', :addr => nil, :method => 'trust'},

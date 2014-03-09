@@ -50,9 +50,14 @@ end
 execute "usermod --append -G vagrant www-data"
 
 
-#TODO: ffmpeg
+#TODO: ffmpeg / database init / mailcatcher
 
 # remove apache
 #command "apt-get remove apache2 -y"
 #command "apt-get autoremove -y"
+
+# package "libav-tools"
+# package "gpac"
+# package "libavcodec-extra-53"
+
 

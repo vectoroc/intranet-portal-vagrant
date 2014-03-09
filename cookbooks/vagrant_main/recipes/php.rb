@@ -8,7 +8,6 @@ include_recipe "php::module_curl"
 
 include_recipe "php-fpm"
 
-package "php5-mssql"
 package "php5-imap"
 package "php5-xdebug"
 package "php5-xcache"
