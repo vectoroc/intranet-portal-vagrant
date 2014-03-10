@@ -1,19 +1,20 @@
-# Mailcatcher dependencies ?
-%w{ make g++ libsqlite3-dev }.each do |a_package|
-  package a_package
+#include_recipe "build-essential"
+package "make"
+package "g++"
+package "libsqlite3-dev"
+gem_package "mailcatcher"
+
+
+template "/etc/init/mailcatcher.conf" do
+  source "mailcatcher.upstart.conf.erb"
+  mode 0644
+  notifies :restart, "service[mailcatcher]", :immediately
 end
 
-# Install ruby gems
-%w{ rake mailcatcher }.each do |a_gem|
-  gem_package a_gem
-end
-
-# Get eth1 ip
-eth1_ip = node[:network][:interfaces][:eth1][:addresses].select{|key,val| val[:family] == 'inet'}.flatten[0]
-
-# Setup MailCatcher
-bash "mailcatcher" do
-  code "mailcatcher --http-ip #{eth1_ip} --smtp-port 25"
+service "mailcatcher" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true
+  action :start
 end
 
 template "#{node['php']['ext_conf_dir']}/mailcatcher.ini" do
@@ -22,6 +23,6 @@ template "#{node['php']['ext_conf_dir']}/mailcatcher.ini" do
   group "root"
   mode "0644"
   action :create
-  notifies :restart, resources("service[nginx]")
+  notifies :restart, resources("service[php-fpm]")
   #notifies :restart, resources("service[apache2]")
 end

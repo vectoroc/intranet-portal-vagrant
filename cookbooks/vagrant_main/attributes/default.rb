@@ -15,3 +15,7 @@ default['php']['xdebug']['remote_connect_back'] = '1'
 default['php']['xdebug']['idekey'] = 'XDEBUG_ECLIPSE'
 default['php']['xdebug']['profiler_enable_trigger'] = '1'
 default['php']['xdebug']['trace_output_dir'] = '/tmp'
+
+default['mailcatcher']['http_ip'] = '0.0.0.0'
+default['mailcatcher']['http_port'] = '1080'
+default['mailcatcher']['smtp_port'] = '25'

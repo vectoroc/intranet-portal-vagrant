@@ -1,2 +1,2 @@
 ; Use MailCatcher for mail (http://mailcatcher.me/) 
-sendmail_path = /opt/vagrant_ruby/bin/catchmail --smtp-port 25
+sendmail_path = <%= File.join Gem.bindir, 'catchmail' %> --smtp-port <%= node['mailcatcher']['smtp_port'] %>
