@@ -13,7 +13,7 @@ EOF
  
 end script
  
-setuid vagrant
-setgid vagrant
+#setuid vagrant
+#setgid vagrant
 
-exec <%= File.join Gem.bindir, 'mailcatcher' %> --http-ip="<%= node['mailcatcher']['http_ip'] %>" --http-port="<%= node['mailcatcher']['http_port'] %>" --smtp-ip="<%= node['mailcatcher']['smtp_ip'] %>" --smtp-port="<%= node['mailcatcher']['smtp_port'] %>" --foreground >>/var/log/mailcatcher/mailcatcher.log
+exec sudo -u vagrant <%= File.join Gem.bindir, 'mailcatcher' %> --http-ip="<%= node['mailcatcher']['http_ip'] %>" --http-port="<%= node['mailcatcher']['http_port'] %>" --smtp-ip="<%= node['mailcatcher']['smtp_ip'] %>" --smtp-port="<%= node['mailcatcher']['smtp_port'] %>" --foreground >>/var/log/mailcatcher/mailcatcher.log
