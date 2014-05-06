@@ -57,8 +57,8 @@ execute "usermod --append -G vagrant www-data"
 
 #TODO:  database init
 
-package ffmpeg
-package libavcodec-extra-53
+package "ffmpeg"
+package "libavcodec-extra-53"
 # на дебиане вместо ffmpeg ставили libav-tools
 # package "libav-tools"
 # package "gpac"
