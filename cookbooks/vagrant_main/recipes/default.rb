@@ -11,12 +11,13 @@ include_recipe "vagrant_main::php"
 include_recipe "vagrant_main::drush"
 include_recipe "vagrant_main::mailcatcher"
 
-
 %w{ vim mc curl tmux }.each do |pkg|
   package pkg
 end
 
 node[:hosts].each do |site|
+
+  docroot = "/home/vagrant/www-root/#{site}"
 
   template "#{node['nginx']['dir']}/sites-available/#{site}" do
     source "nginx/site.erb"
@@ -26,7 +27,7 @@ node[:hosts].each do |site|
     variables(
       :server_name => site,
       :server_aliases => ["*.#{site}"],
-      :docroot => "/home/vagrant/www-root/#{site}",
+      :docroot => docroot,
       :fast_cgi_pass => "unix:#{node['php-fpm']['pool']['www']['listen']}"
     )
     notifies :restart, "service[nginx]"
@@ -40,6 +41,11 @@ node[:hosts].each do |site|
     user "www-data"
   end
 
+  cron "setup cron for " + site + " [ivideo]" do
+    command "flock -n /tmp/ivideo-convert.lock drush ivideo-convert -r " + docroot
+    user "www-data"
+  end
+
   hostsfile_entry '127.0.0.1' do
     hostname site
   end
@@ -49,13 +55,11 @@ end
 
 execute "usermod --append -G vagrant www-data"
 
+#TODO:  database init
 
-#TODO: ffmpeg / database init / mailcatcher
-
-# remove apache
-#command "apt-get remove apache2 -y"
-#command "apt-get autoremove -y"
-
+package ffmpeg
+package libavcodec-extra-53
+# на дебиане вместо ffmpeg ставили libav-tools
 # package "libav-tools"
 # package "gpac"
 # package "libavcodec-extra-53"
